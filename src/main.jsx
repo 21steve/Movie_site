@@ -4,6 +4,8 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./assets/pages/Home.jsx";
 import MovieDetails from "./assets/pages/MovieDetails.jsx";
+import Login from "./assets/pages/Login.jsx";
+import Signup from "./assets/pages/Signup.jsx";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +15,14 @@ const router = createBrowserRouter([
   {
     path: "/MovieDetails/:moviename",
     element: <MovieDetails />,
+  },
+  {
+    path: "/Login",
+    element: <Login />,
+  },
+  {
+    path: "/Signup",
+    element: <Signup />,
   },
 ]);
 

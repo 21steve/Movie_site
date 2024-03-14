@@ -1,8 +1,12 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import TheatersIcon from "@mui/icons-material/Theaters";
+import { useState } from "react";
+import { movies } from "../data/data.js";
+
 const Navbar = () => {
   return (
-    <div className="max-w-[1680px] m-auto px-10 py-5 bg-black flex justify-between font-bold">
+    <div className="max-w-[1680px] m-auto px-10 py-1 bg-black flex justify-between font-bold ">
       <div className="flex items-center justify-between">
         <TheatersIcon className="bg-white " />
         <h1 className="text-red-400 p-5 text-2xl">Showtime</h1>
@@ -13,12 +17,14 @@ const Navbar = () => {
         />
       </div>
       <div className="flex ">
-        <p className="text-red-400 p-5">Home</p>
-        <p className="text-red-400 p-5">Profile</p>
-        <p className="text-red-400 p-5">Settings</p>
+        <NavLink to="/Login" className="text-red-400 p-5">
+          Login
+        </NavLink>
+        <NavLink to="/Signup" className="text-red-400 p-5">
+          Sign up
+        </NavLink>
       </div>
     </div>
   );
 };
-
 export default Navbar;

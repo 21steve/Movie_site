@@ -1,64 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { movies } from "../data/data.js";
-import { NavLink } from "react-router-dom";
+import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 
 const Hero = () => {
-  const [shade, setShade] = useState(Array(movies.length).fill(false));
+  const [num, setnum] = useState(0);
+  const [play, setplay] = useState(false);
 
-  const handleMouseEnter = (index) => {
-    if (!shade[index]) {
-      const updatedShade = [...shade];
-      updatedShade.fill(false);
-      updatedShade[index] = true;
-      setShade(updatedShade);
-    }
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setnum((num) => (num + 1) % movies.length);
+    }, 7000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  const playfun = () => {
+    window.open(movies[num].trailerLink, "_blank");
   };
-
-  const handleMouseLeave = (index) => {
-    if (shade[index]) {
-      const updatedShade = [...shade];
-      updatedShade[index] = false;
-      setShade(updatedShade);
-    }
-  };
-
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-      {movies.map((movie, index) => {
-        return (
-          <div
-            key={index}
-            className="shadow-xl relative"
-            onMouseEnter={() => handleMouseEnter(index)}
-            onMouseLeave={() => handleMouseLeave(index)}
-          >
-            <img
-              src={movie.imageLink}
-              alt={movie.title}
-              className="p-5 h-full w-full"
-            />
-            {shade[index] && (
-              <div className="bg-black bg-opacity-50 absolute top-0 left-0 h-full w-full ">
-                <div className="text-white p-10">
-                  <h1 className=" text-2xl font-bold">{movie.title}</h1>
-                  <p>{movie.genre}</p>
-                  <p>{movie.duration}</p>
-                  <p className="bg-gray-200 text-black px-1 inline-block mx-1 my-1 rounded-sm">
-                    {movie.rating}
-                  </p>
-                  <br />
-                  <h1 className="font-bold">About the movie</h1>
-                  <p>{movie.description}</p>
-                  <br />
-                  <button className="bg-red-400 rounded-3xl p-2 ">
-                    <NavLink key={movie} to={`/MovieDetails/${movie.title}`}>Book Ticket</NavLink>
-                  </button>
-                </div>
-              </div>
-            )}
+    <div className="flex justify-center pt-5 pb-5 ">
+      <div
+        className="absolute top-0 left-0 w-full h-full"
+        style={{
+          backgroundImage: `url(${movies[num].imageLink})`,
+          backgroundSize: "cover",
+          filter: "blur(8px)",
+          zIndex: "-2",
+        }}
+      ></div>
+      <div
+        className="w-[700px] flex shadow-xl rounded-lg overflow-hidden"
+        style={{ zIndex: "0" }}
+      >
+        <div className="w-2/3 ">
+          <img
+            src={movies[num].imageLink}
+            alt={movies[num].title}
+            className="h-[500px] object-cover w-full"
+          />
+        </div>
+        <div className="bg-black  w-1/3 p-6 text-white">
+          <h1 className="font-bold text-2xl">{movies[num].title}</h1>
+          <div className="flex items-center space-x-2  py-4">
+            <div>
+              <PlayCircleFilledWhiteIcon
+                style={{ fontSize: 50, color: "red" }}
+                className="cursor-pointer"
+                onClick={playfun}
+              />
+            </div>
+            <p className="font-bold">Watch trailer</p>
           </div>
-        );
-      })}
+          <p>{movies[num].description}</p>
+        </div>
+      </div>
     </div>
   );
 };

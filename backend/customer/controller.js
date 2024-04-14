@@ -36,22 +36,62 @@ const getTheatre = (req, res) => {
   });
 };
 
-const getTime = (req, res) => { 
+const getTime = (req, res) => {
   const { theatrename, moviename } = req.params;
-  pool.query(queries.getTimeForMovie, [theatrename, moviename], (error, results) => {
-    if (error) {
-      console.error("Error fetching times:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-      return;
+  pool.query(
+    queries.getTimeForMovie,
+    [theatrename, moviename],
+    (error, results) => {
+      if (error) {
+        console.error("Error fetching times:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+        return;
+      }
+      res.status(200).json(results.rows);
     }
-    res.status(200).json(results.rows);
-  });
-}
+  );
+};
+
+const getSeats = (req, res) => {
+  //disp req.body
+
+  const { bookcity, booktheatre, bookdate, booktime, movie } = req.body;
+
+  pool.query(
+    queries.getSeatsForMovie,
+    [bookcity, booktheatre, bookdate, booktime, movie],
+    (error, results) => {
+      if (error) {
+        console.error("Error fetching seats:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+        return;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+};
+const updateSeats = (req, res) => {
+  const { count, bookcity, booktheatre, bookdate, booktime, movie } = req.body;
+  pool.query(
+    queries.updateSeatsForMovie,
+    [count, bookcity, booktheatre, bookdate, booktime, movie],
+    (error, results) => {
+      if (error) {
+        console.error("Error updating seats:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+        return;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+};
 module.exports = {
   getDate,
   getCity,
   getTheatre,
   getTime,
+  getSeats,
+  updateSeats,
 };
 
 // const getCustomerById = (req, res) => {

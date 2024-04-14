@@ -1,6 +1,5 @@
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-
-
 
 export default function Component() {
   const [details, setDetails] = useState({ email: "", password: "" });
@@ -11,7 +10,9 @@ export default function Component() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  }
+    console.log(details); // You can replace this with your own logic
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center">
       <div className="max-w-md rounded-lg shadow-lg bg-white p-8 space-y-6 border border-gray-200 dark:border-gray-700">
@@ -41,6 +42,7 @@ export default function Component() {
               required
               type="email"
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -56,6 +58,7 @@ export default function Component() {
               required
               type="password"
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+              onChange={handleChange}
             />
           </div>
           <button

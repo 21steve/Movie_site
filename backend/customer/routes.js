@@ -11,6 +11,10 @@ router.get("/theatre/:cityname", controller.getTheatre);
 
 router.get("/time/:theatrename,:moviename", controller.getTime);
 
+router.post("/seats", controller.getSeats);
+
+router.post("/seatupdate", controller.updateSeats);
+
 // router.post("/", controller.addCustomer);
 
 // router.get("/:id", controller.getCustomerById);

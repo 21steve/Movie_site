@@ -3,6 +3,7 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 import { useParams } from "react-router-dom";
 import { movies } from "../data/data.js";
+import Availablity from "../components/Availablity";
 
 import {
   Button,
@@ -30,6 +31,8 @@ const MovieDetails = () => {
   const [booktheatre, setbooktheatre] = useState("");
   const [booktime, setbooktime] = useState("");
   const [ticketchoice, setticketchoice] = useState("");
+  const [decided, setDecided] = useState(false);
+  const [notfilled, setNotfilled] = useState(false);
 
   useEffect(() => {
     const fetchDate = async () => {
@@ -91,9 +94,6 @@ const MovieDetails = () => {
         const data = await res.json();
         const timeArray = data.map((item) => item.timing);
         setTime(timeArray);
-        {
-          console.log(timeArray);
-        }
       } catch (error) {
         console.log(error);
       }
@@ -125,7 +125,20 @@ const MovieDetails = () => {
   const Costseter = (choice) => {
     setticketchoice(choice);
   };
-
+  const handleAvailablity = () => {
+    if (
+      bookdate === "" ||
+      bookcity === "" ||
+      booktheatre === "" ||
+      booktime === "" ||
+      ticketchoice === ""
+    ) {
+      setNotfilled(true);
+      return;
+    }
+    setNotfilled(false);
+    setDecided(true);
+  };
   return (
     <div className="bg-gradient-to-br from-gray-800 to-black text-white h-screen">
       <Navbar />
@@ -139,10 +152,13 @@ const MovieDetails = () => {
             <div className="flex justify-between  gap-11">
               {/* BOOKING */}
               <div>
-                <Grid container spacing={2} className="mt-4">
+                <Grid container spacing={2} className="mt-4 ">
                   {/* Date */}
                   <Grid item xs={12} sm={6} md={3}>
-                    <FormControl fullWidth>
+                    <FormControl
+                      fullWidth
+                      style={{ border: "1px solid gray", borderRadius: "4px" }}
+                    >
                       <InputLabel id="date-select-label">
                         <span className="text-white ">Date</span>
                       </InputLabel>
@@ -178,7 +194,10 @@ const MovieDetails = () => {
                   </Grid>
                   {/* City */}
                   <Grid item xs={12} sm={6} md={3}>
-                    <FormControl fullWidth>
+                    <FormControl
+                      fullWidth
+                      style={{ border: "1px solid gray", borderRadius: "4px" }}
+                    >
                       <InputLabel id="city-select-label">
                         <span className="text-white ">City</span>
                       </InputLabel>
@@ -210,7 +229,10 @@ const MovieDetails = () => {
                   </Grid>
                   {/* Theater */}
                   <Grid item xs={12} sm={6} md={3}>
-                    <FormControl fullWidth>
+                    <FormControl
+                      fullWidth
+                      style={{ border: "1px solid gray", borderRadius: "4px" }}
+                    >
                       <InputLabel id="theater-select-label">
                         <span className="text-white ">Theatre</span>
                       </InputLabel>
@@ -240,7 +262,10 @@ const MovieDetails = () => {
                   </Grid>
                   {/* Time */}
                   <Grid item xs={12} sm={6} md={3}>
-                    <FormControl fullWidth>
+                    <FormControl
+                      fullWidth
+                      style={{ border: "1px solid gray", borderRadius: "4px" }}
+                    >
                       <InputLabel id="time-select-label">
                         <span className="text-white ">Time</span>
                       </InputLabel>
@@ -282,8 +307,8 @@ const MovieDetails = () => {
                     }}
                   >
                     <EmojiEventsIcon className="mr-2 h-4 w-4 text-yellow-500" />
-                    <span className="font-bold text-lg text-yellow-500">
-                      VIP
+                    <span className="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 to-amber-900">
+                      VIP $500
                     </span>
                   </Button>
                   <Button
@@ -298,8 +323,8 @@ const MovieDetails = () => {
                     onClick={() => Costseter("Premium")}
                   >
                     <StarIcon className="mr-2 h-4 w-4 text-[#a9b0b4]" />
-                    <span className="font-bold text-lg text-[#a9b0b4]">
-                      Premium Ticket
+                    <span className="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-gray-300 to-gray-600">
+                      Premium $350
                     </span>
                   </Button>
                   <Button
@@ -317,19 +342,39 @@ const MovieDetails = () => {
                     onClick={() => Costseter("Standard")}
                   >
                     <ConfirmationNumberIcon className="mr-2 h-4 w-4 text-[#CD7F32]" />
-                    <span className="font-bold text-lg text-[#CD7F32]">
-                      Standard
+                    <span className="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-[#CD7F32] to-amber-950 ">
+                      Standard $250
                     </span>
                   </Button>
                 </div>
                 {/* BOOK BUTTON */}
+                {notfilled && (
+                  <div className="text-red-500 mt-4">
+                    Please fill all the fields
+                  </div>
+                )}
                 <div>
                   <div className="grid gap-4 md:gap-8 mt-4">
-                    <button className="bg-gradient-to-br from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 rounded-lg p-3 text-white font-bold">
-                      Book Now
+                    <button
+                      className="bg-gradient-to-br from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 rounded-lg p-3 text-white font-bold"
+                      onClick={handleAvailablity}
+                    >
+                      Check Availablity
                     </button>
                   </div>
                 </div>
+
+                {decided && (
+                  <div className="mt-4">
+                    <Availablity
+                      bookdate={bookdate}
+                      bookcity={bookcity}
+                      booktheatre={booktheatre}
+                      booktime={booktime}
+                      movie={movie.title}
+                    />
+                  </div>
+                )}
               </div>
               {/* DETAILS */}
               <div>

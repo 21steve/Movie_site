@@ -1,4 +1,22 @@
+import React, { useState } from "react";
+
 const Signup = () => {
+  const [details, setDetails] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e) => {
+    setDetails({ ...details, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(details); // You can replace this with your own logic
+  };
+
   return (
     <main className="flex justify-center items-center h-screen bg-gray-100 dark:bg-gray-800">
       <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-8 w-full max-w-md">
@@ -19,6 +37,7 @@ const Signup = () => {
               placeholder="John Doe"
               required
               type="text"
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -34,6 +53,7 @@ const Signup = () => {
               placeholder="johndoe@example.com"
               required
               type="email"
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -48,6 +68,7 @@ const Signup = () => {
               id="password"
               required
               type="password"
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -62,6 +83,7 @@ const Signup = () => {
               id="confirmPassword"
               required
               type="password"
+              onChange={handleChange}
             />
           </div>
           <div className="flex items-start">
@@ -99,4 +121,5 @@ const Signup = () => {
     </main>
   );
 };
+
 export default Signup;
